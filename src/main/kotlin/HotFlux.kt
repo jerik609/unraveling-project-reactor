@@ -57,11 +57,11 @@ class HotFlux {
         println("first we sleep ...".uppercase())
         Thread.sleep(5000)
         println("then we subscribe the first subscriber:".uppercase())
-        flux.doOnNext { println("#1 subscriber: $it") }.subscribe()
+        flux.subscribe(MySubscriber("#1"))
         println("then we sleep some more ...".uppercase())
         Thread.sleep(5000)
         println("then we subscribe the second subscriber:".uppercase())
-        flux.doOnNext { println("#2 subscriber: $it") }.subscribe()
+        flux.subscribe(MySubscriber("#2"))
     }
 
 }
