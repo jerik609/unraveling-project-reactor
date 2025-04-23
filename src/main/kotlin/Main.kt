@@ -1,7 +1,25 @@
 package org.example
 
+import org.example.exercises.Exercise1
+import org.example.exercises.Exercise2
+import org.example.exercises.Exercise3
+import org.example.exercises.Exercise4
+import org.example.exercises.Exercise5
+
+
 fun main() {
 
+    //Exercise1.runExercise1()
+    //Exercise2.runExercise2()
+    //Exercise3.runExercise3()
+    //Exercise4.runExercise4()
+    Exercise5.runExercise5()
+
+    //hotFluxTest()
+
+}
+
+fun hotFluxTest() {
     val x = MyExample()
     //x.test()
 
@@ -15,7 +33,6 @@ fun main() {
     testHotHotFlux(hotFlux)
 
     while(true) {}
-
 }
 
 fun testColdHotFlux(hotFlux: HotFlux) {
