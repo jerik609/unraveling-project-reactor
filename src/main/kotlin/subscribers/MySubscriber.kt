@@ -1,8 +1,8 @@
-package org.example
+package org.example.subscribers
 
 import reactor.core.publisher.BaseSubscriber
 
-class MySubscriber(private val name: String): BaseSubscriber<String>() {
+open class MySubscriber(private val name: String): BaseSubscriber<String>() {
 
     override fun hookOnNext(value: String) {
         println("(sub: $name) - consuming: $value")
