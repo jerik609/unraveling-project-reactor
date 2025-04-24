@@ -13,7 +13,7 @@ class ExercisesPart4Runner {
 //            Exercise3.runExercise()
 
             //Exercise4.runExercise()
-            //Exercise5.runExercise()
+            Exercise5.runExercise()
             //Exercise6.runExercise()
             //Exercise7.runExercise()
 
