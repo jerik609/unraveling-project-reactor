@@ -29,9 +29,6 @@ fun main() {
 
     // === prototypes and tests ===
 
-    val handlers = logger
-
-
     hotFluxTest()
 
     //multiSubscribe()
