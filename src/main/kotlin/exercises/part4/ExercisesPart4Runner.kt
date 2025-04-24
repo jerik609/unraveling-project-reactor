@@ -6,17 +6,21 @@ class ExercisesPart4Runner {
 
     companion object {
         fun run() {
-//            Exercise1.runExercise()
-//            println("=================")
-//            Exercise1InJava.runMe()
-//            Exercise2.runExercise()
-//            Exercise3.runExercise()
-
-            //Exercise4.runExercise()
+            Exercise1.runExercise()
+            println("=================")
+            Exercise1InJava.runMe()
+            println("=================")
+            Exercise2.runExercise()
+            println("=================")
+            Exercise3.runExercise()
+            println("=================")
+            Exercise4.runExercise()
+            println("=================")
             Exercise5.runExercise()
-            //Exercise6.runExercise()
-            //Exercise7.runExercise()
-
+            println("=================")
+            Exercise6.runExercise()
+            println("=================")
+            Exercise7.runExercise()
         }
     }
 
