@@ -1,31 +1,24 @@
 package org.example
 
-import org.example.exercises.Exercise1
-import org.example.exercises.Exercise2
-import org.example.exercises.Exercise3
-import org.example.exercises.Exercise4
-import org.example.exercises.Exercise5
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.logging.Logger
 
+val logger: Logger = Logger.getLogger("MAIN LOGGER")
 
 fun main() {
-
     //Exercise1.runExercise1()
     //Exercise2.runExercise2()
     //Exercise3.runExercise3()
     //Exercise4.runExercise4()
     //Exercise5.runExercise5()
 
+    hotFluxTest()
 
-
-    //hotFluxTest()
-
-    multiSubscribe()
-
+    //multiSubscribe()
 }
 
 fun hotFluxTest() {
@@ -62,8 +55,8 @@ fun testColdHotFlux2(hotFlux: HotFlux) {
 
 fun testColdHotFlux3(hotFlux: HotFlux) {
     val coldHotFlux = hotFlux.testColdHotFlux()//.share()
-        .doOnError { println("error! ${it.message}") }
-        .doOnEach { println("signal: $it") }
+        .doOnError { logger.info("error! ${it.message}") }
+        .doOnEach { logger.info("signal: $it") }
     hotFlux.consumeFiniteItemsAndCancel(coldHotFlux, 10)
 }
 
@@ -74,12 +67,13 @@ fun testHotHotFlux(hotFlux: HotFlux) {
 
 // https://medium.com/@ranjeetk.developer/hot-cold-publishers-java-reactive-programming-5c057c091d63
 fun multiSubscribe() {
+
     //val f = Flux.just(1, 2, 3)
 
-    val f = gimmeFlux().share()
+    val f = gimmeFlux()//.share()
 
-    f.subscribe { println("#1: $it") }
-    f.subscribe { println("#2: $it") }
+    f.subscribe { logger.info("#1: $it") }
+    f.subscribe { logger.info("#2: $it") }
 
     while(true) {
 
@@ -95,7 +89,7 @@ fun gimmeFlux(): Flux<String> {
         executor.submit {
             while (true) {
                 val value = "hot value #${atomicInt.incrementAndGet()}"
-                println("[FLUX] -> emitting: $value")
+                logger.info("[FLUX] -> emitting: $value")
                 sink.next(value)
                 Thread.sleep(1500)
             }

@@ -1,4 +1,4 @@
-package org.example.exercises
+package org.example.exercises.part2
 
 import reactor.core.publisher.Mono
 import java.util.concurrent.CompletableFuture

@@ -23,7 +23,7 @@ class HotFlux {
             executor.submit {
                 while (true) {
                     val value = "hot value #${atomicInt.incrementAndGet()}"
-                    println("[COLD hot flux] -> emitting: $value")
+                    logger.info("[COLD hot flux] -> emitting: $value")
                     sink.next(value)
                     Thread.sleep(1500)
                 }
@@ -64,13 +64,13 @@ class HotFlux {
     }
 
     fun consumeFiniteItemsAndCancel(flux: Flux<String>, req: Long) {
-        println("first we sleep ...".uppercase())
+        logger.info("first we sleep ...".uppercase())
         Thread.sleep(5000)
-        println("then we subscribe the first subscriber:".uppercase())
+        logger.info("then we subscribe the first subscriber:".uppercase())
         flux.subscribe(MySubscriberWithRequestsAndAutocancel("#1", req))
-        println("then we sleep some more ...".uppercase())
+        logger.info("then we sleep some more ...".uppercase())
         Thread.sleep(5000)
-        println("then we subscribe the second subscriber:".uppercase())
+        logger.info("then we subscribe the second subscriber:".uppercase())
         flux.subscribe(MySubscriber("#2"))
     }
 

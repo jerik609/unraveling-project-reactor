@@ -1,6 +1,7 @@
 package org.example.subscribers
 
 import reactor.core.publisher.BaseSubscriber
+import reactor.core.publisher.SignalType
 
 open class MySubscriber(private val name: String): BaseSubscriber<String>() {
 

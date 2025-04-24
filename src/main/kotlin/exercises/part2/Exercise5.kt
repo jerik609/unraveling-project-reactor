@@ -1,4 +1,4 @@
-package org.example.exercises
+package org.example.exercises.part2
 
 import org.reactivestreams.Subscription
 import reactor.core.publisher.BaseSubscriber
