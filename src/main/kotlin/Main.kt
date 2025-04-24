@@ -1,27 +1,38 @@
 package org.example
 
-import org.example.exercises.part3.ExercisesPart3Runner
-import org.example.exercises.part4.ExercisesPart4Runner
+import org.example.subscribers.MySubscriber
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.logging.LogManager
 import java.util.logging.Logger
+
 
 val logger: Logger = Logger.getLogger("MAIN LOGGER")
 
 fun main() {
 
+    // configure logging!
+    // https://nozaki.me/roller/kyle/entry/java-util-logging-programmatic-configuration
+    val logManager = LogManager.getLogManager()
+    MySubscriber::class.java.classLoader.getResourceAsStream("logging.properties").use { inputStream ->
+        logManager.readConfiguration(inputStream)
+    }
+
     // === exercises ===
 
     //ExercisesPart2Runner.run()
     //ExercisesPart3Runner.run()
-    ExercisesPart4Runner.run()
+    //ExercisesPart4Runner.run()
 
     // === prototypes and tests ===
 
-    //hotFluxTest()
+    val handlers = logger
+
+
+    hotFluxTest()
 
     //multiSubscribe()
 }
@@ -39,7 +50,7 @@ fun hotFluxTest() {
     //testColdHotFlux2(hotFlux)
 
     // testing non-shared flux with two subscribers, one cancelling after a while
-    //testColdHotFlux3(hotFlux)
+    testColdHotFlux3(hotFlux)
 
     // a flux which is being pushed data by underlying sink - and the data is lost, later a subscriber joins and consumes,
     // then some time later, the next subscriber joins - both subscribers may miss data
