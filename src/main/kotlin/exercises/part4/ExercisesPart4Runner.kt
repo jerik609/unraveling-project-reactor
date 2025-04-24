@@ -9,9 +9,13 @@ class ExercisesPart4Runner {
 //            Exercise1.runExercise()
 //            println("=================")
 //            Exercise1InJava.runMe()
+//            Exercise2.runExercise()
+//            Exercise3.runExercise()
 
-
-            Exercise2.runExercise()
+            //Exercise4.runExercise()
+            //Exercise5.runExercise()
+            //Exercise6.runExercise()
+            //Exercise7.runExercise()
 
         }
     }
