@@ -1,5 +1,6 @@
 package org.example
 
+import org.example.exercises.part3.ExercisesPart3Runner
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
 import java.util.concurrent.ExecutorService
@@ -10,13 +11,15 @@ import java.util.logging.Logger
 val logger: Logger = Logger.getLogger("MAIN LOGGER")
 
 fun main() {
-    //Exercise1.runExercise1()
-    //Exercise2.runExercise2()
-    //Exercise3.runExercise3()
-    //Exercise4.runExercise4()
-    //Exercise5.runExercise5()
 
-    hotFluxTest()
+    // === exercises ===
+
+    //ExercisesPart2Runner.run()
+    ExercisesPart3Runner.run()
+
+    // === prototypes and tests ===
+
+    //hotFluxTest()
 
     //multiSubscribe()
 }
@@ -34,7 +37,7 @@ fun hotFluxTest() {
     //testColdHotFlux2(hotFlux)
 
     // testing non-shared flux with two subscribers, one cancelling after a while
-    testColdHotFlux3(hotFlux)
+    //testColdHotFlux3(hotFlux)
 
     // a flux which is being pushed data by underlying sink - and the data is lost, later a subscriber joins and consumes,
     // then some time later, the next subscriber joins - both subscribers may miss data

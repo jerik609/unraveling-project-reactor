@@ -8,7 +8,7 @@ class Exercise3 {
 
     companion object {
 
-        fun runExercise3() {
+        fun runExercise() {
 
             Mono.fromFuture(createCompletableFuture()).subscribe(
                 { value -> println("thread: ${Thread.currentThread().threadId()}"); println("Received: $value") },

@@ -8,7 +8,7 @@ class Exercise5 {
 
     companion object {
 
-        fun runExercise5() {
+        fun runExercise() {
             Flux.just("1", "2", "3").subscribe(createBaseSubscriber())
         }
 

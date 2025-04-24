@@ -7,7 +7,7 @@ class Exercise4 {
 
     companion object {
 
-        fun runExercise4() {
+        fun runExercise() {
 
             val publisherSupplier = { Flux.just("Current time: ${LocalDateTime.now()}") }
 

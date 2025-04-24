@@ -7,7 +7,7 @@ class Exercise1 {
 
     companion object {
 
-        fun runExercise1() {
+        fun runExercise() {
             val value = Optional.of("moo")
             val empty = Optional.empty<String>()
 

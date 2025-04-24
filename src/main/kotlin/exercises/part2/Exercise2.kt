@@ -7,7 +7,7 @@ class Exercise2 {
 
     companion object {
 
-        fun runExercise2() {
+        fun runExercise() {
             val publisher = createPublisher()
                 .doOnNext { println("flux next: $it") }
                 .doOnComplete { println("flux completed") }
