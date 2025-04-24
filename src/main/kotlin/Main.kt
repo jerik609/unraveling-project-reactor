@@ -1,6 +1,7 @@
 package org.example
 
 import org.example.exercises.part3.ExercisesPart3Runner
+import org.example.exercises.part4.ExercisesPart4Runner
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
 import java.util.concurrent.ExecutorService
@@ -15,7 +16,8 @@ fun main() {
     // === exercises ===
 
     //ExercisesPart2Runner.run()
-    ExercisesPart3Runner.run()
+    //ExercisesPart3Runner.run()
+    ExercisesPart4Runner.run()
 
     // === prototypes and tests ===
 
