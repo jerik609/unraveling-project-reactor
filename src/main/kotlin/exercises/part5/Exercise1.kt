@@ -7,8 +7,17 @@ class Exercise1 {
 
     companion object {
         fun run() {
+
+            val simulateApiCall = {
+                Random(2).nextBoolean().let { // seed 2 throws and error
+                    //if (it)
+                    throw RuntimeException("failing randomly") // no random, just throw for the sake of demonstration!
+                }
+                listOf("Alice", "Bob", "Charlie", "Diana", "Ethan", "Fiona")
+            }
+
             Flux.defer {
-                Flux.fromIterable(simulateApiCall().invoke()) // inner supplier throws an error instead of creating a flux, but we do not generate an error flux
+                Flux.fromIterable(simulateApiCall()) // inner supplier throws an error instead of creating a flux, but we do not generate an error flux
                     .doOnError { println("1: ${it.message}") } // so this is pointless
                     .map { if (it == "Alice") throw RuntimeException("BOOOM!") else it } // if we created the flux successfully, this would be triggered!
                     .doOnError { println("2: ${it.message}") }
@@ -21,7 +30,7 @@ class Exercise1 {
             // alternatively
             Flux.defer {
                 try {
-                    Flux.fromIterable(simulateApiCall().invoke())
+                    Flux.fromIterable(simulateApiCall())
                 } catch (e: Exception) {
                     Flux.error { RuntimeException("outer failure: ${e.message}") }
                 }
@@ -29,13 +38,6 @@ class Exercise1 {
                 .subscribe ({println(it)}, {println(it)})
         }
 
-        fun simulateApiCall() = {
-            Random(2).nextBoolean().let { // seed 2 throws and error
-                //if (it)
-                throw RuntimeException("failing randomly") // no random, just throw for the sake of demonstration!
-            }
-            listOf("Alice", "Bob", "Charlie", "Diana", "Ethan", "Fiona")
-        }
     }
 
 }
