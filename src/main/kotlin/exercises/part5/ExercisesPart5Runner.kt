@@ -1,5 +1,7 @@
 package org.example.exercises.part5
 
+import exercises.part5.Exercise3InJava
+
 class ExercisesPart5Runner {
 
     companion object {
@@ -9,6 +11,7 @@ class ExercisesPart5Runner {
             Exercise2.run()
             println("=============================")
             Exercise3.run()
+            Exercise3InJava.run()
             println("=============================")
             Exercise4.run()
             println("=============================")
