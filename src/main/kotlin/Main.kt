@@ -1,5 +1,6 @@
 package org.example
 
+import org.example.exercises.part5.ExercisesPart5Runner
 import org.example.subscribers.MySubscriber
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
@@ -26,10 +27,11 @@ fun main() {
     //ExercisesPart2Runner.run()
     //ExercisesPart3Runner.run()
     //ExercisesPart4Runner.run()
+    ExercisesPart5Runner.run()
 
     // === prototypes and tests ===
 
-    hotFluxTest()
+    //hotFluxTest()
 
     //multiSubscribe()
 }
