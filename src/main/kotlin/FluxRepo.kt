@@ -8,22 +8,38 @@ import reactor.core.publisher.FluxSink
 import reactor.core.publisher.Sinks
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 
 
-class HotFlux {
+class FluxRepo {
+
+    // SPECIAL FLUX CREATORS =============================================================
 
     // flux which waits for sink to emitter to be initialized by first subscription
     fun testColdHotFlux(): Flux<String> {
-        val executor: ExecutorService = Executors.newSingleThreadExecutor()
+        val executor: ExecutorService = Executors.newFixedThreadPool(2)
 
         val atomicInt = AtomicInteger(0)
 
         val emitter = { sink: FluxSink<String> ->
+
+            sink
+                .onCancel { logger.info { "SINK ${sink.hashCode()}: was cancelled" } }
+                .onDispose { logger.info { "SINK ${sink.hashCode()}: was disposed" } }
+                .onRequest { logger.info { "SINK ${sink.hashCode()}: was requested" } }
+
             executor.submit {
                 while (true) {
+
+                    // make sure we stop when not needed
+                    if (sink.isCancelled) {
+                        logger.info { ">>> ${Thread.currentThread().threadId()} <<< [FluxSink flux] -> SINK ${sink.hashCode()}: was cancelled - BREAKING OUT OF THE EMITTER LOOP" }
+                        break
+                    }
+
                     val value = "hot value #${atomicInt.incrementAndGet()}"
-                    logger.info("[COLD hot flux] -> emitting: $value")
+                    logger.info(">>> ${Thread.currentThread().threadId()} <<< [FluxSink flux] -> emitting: $value")
                     sink.next(value)
                     Thread.sleep(1500)
                 }
@@ -42,19 +58,34 @@ class HotFlux {
 
         val sink = Sinks.many().multicast().directBestEffort<String>()
 
+        val tainted = AtomicBoolean(false)
+
         // feed the sink
         executor.submit {
             while (true) {
+
+                // make sure we stop when not needed (make sure not to be killed on startup)
+                if (sink.currentSubscriberCount() > 0 && !tainted.get()) {
+                    logger.info(">>> ${Thread.currentThread().threadId()} <<< [Sinks flux] -> first subscriber - marking as tainted")
+                    tainted.compareAndSet(false, true)
+                }
+                if (sink.currentSubscriberCount() == 0 && tainted.get()) {
+                    logger.info(">>> ${Thread.currentThread().threadId()} <<< [Sinks flux] -> no subscribers and tainted - BREAKING OUT OF THE EMITTER LOOP")
+                    break
+                }
+
                 val value = "hot value #${atomicInt.incrementAndGet()}"
-                println("[HOT hot flux] -> emitting: $value")
+                logger.info(">>> ${Thread.currentThread().threadId()} <<< [Sinks flux] -> emitting: $value")
                 val result = sink.tryEmitNext(value)
-                println("result: $result")
+                logger.info(">>> ${Thread.currentThread().threadId()} <<< [Sinks flux] -> emit result: $result")
                 Thread.sleep(1500)
             }
         }
 
         return sink.asFlux()
     }
+
+    // ===================================================================================
 
     fun consumeFiniteItems(flux: Flux<String>, req: Long) {
         println("first we sleep ...".uppercase())
@@ -71,7 +102,7 @@ class HotFlux {
         logger.info("then we sleep some more ...".uppercase())
         Thread.sleep(5000)
         logger.info("then we subscribe the second subscriber:".uppercase())
-        flux.subscribe(MySubscriber("#2"))
+        flux.subscribe(MySubscriberWithRequestsAndAutocancel("#2", 20))
     }
 
     fun consumeTwoDelayed(flux: Flux<String>) {

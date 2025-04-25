@@ -1,6 +1,5 @@
 package org.example.subscribers
 
-import org.example.logger
 import org.reactivestreams.Subscription
 
 class MySubscriberWithRequestsAndAutocancel(name: String, req: Long): MySubscriberWithRequests(name, req) {
@@ -9,11 +8,11 @@ class MySubscriberWithRequestsAndAutocancel(name: String, req: Long): MySubscrib
     private var counter: Long = req
 
     override fun hookOnNext(value: String) {
-        logger.info("remaining counter: $counter")
+        logger.info("(sub: $name) - remaining counter: $counter")
         super.hookOnNext(value)
         this.counter--
         if (counter <= 0L) {
-            logger.info("cancelling")
+            logger.info("(sub: $name) - cancelling")
             subscription.cancel()
         }
     }
