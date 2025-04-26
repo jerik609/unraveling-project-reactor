@@ -29,10 +29,6 @@ class Exercise1 {
                 .subscribe(
                     { println("(${Thread.currentThread().name}) - Word count: $it") },
                     { println("(${Thread.currentThread().name}) - Error: ${it.message}") })
-
-            while (true) {
-
-            }
         }
     }
 }

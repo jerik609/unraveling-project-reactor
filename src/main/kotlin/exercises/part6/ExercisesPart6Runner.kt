@@ -4,7 +4,7 @@ class ExercisesPart6Runner {
 
     companion object {
         fun run() {
-            Exercise1.run()
+            //Exercise1.run()
             println("=============================")
             Exercise2.run()
             println("=============================")
@@ -13,6 +13,10 @@ class ExercisesPart6Runner {
             Exercise4.run()
             println("=============================")
             Exercise5.run()
+
+            while (true) {
+
+            }
         }
     }
 
