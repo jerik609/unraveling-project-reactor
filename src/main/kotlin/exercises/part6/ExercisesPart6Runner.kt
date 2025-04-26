@@ -6,7 +6,7 @@ class ExercisesPart6Runner {
         fun run() {
             //Exercise1.run()
             println("=============================")
-            Exercise2.run()
+            //Exercise2.run()
             println("=============================")
             Exercise3.run()
             println("=============================")
