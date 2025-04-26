@@ -19,7 +19,7 @@ class Exercise5 {
                 .parallel() // run in parallel
                 .runOn(Schedulers.parallel())
                 .map { value -> task(value) }
-                .sequential()
+                .sequential() // if this is commented out, we end up with many subscribers :-) test it!
                 .publishOn(Schedulers.single())
                 .subscribe(
                     { println("(${Thread.currentThread().name}) - consumed: $it") },
