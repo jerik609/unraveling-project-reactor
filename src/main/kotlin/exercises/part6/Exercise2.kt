@@ -25,7 +25,7 @@ class Exercise2 {
                 .flatMap(
                     { value -> Mono
                         .fromCallable { slowConsumer(value) } // this fella is SLOW, but we will tackle it in parallel, we can afford 5 threads at a time!
-                        .publishOn(Schedulers.boundedElastic()) // this is important - it tells the flat map on which scheduler to tun - this enables parallelization
+                        .publishOn(Schedulers.boundedElastic()) // this is important - it tells the flat map on which scheduler to run - this enables parallelization
                     },
                     5)
                 .publishOn(Schedulers.single()) // changing again to single thread executor

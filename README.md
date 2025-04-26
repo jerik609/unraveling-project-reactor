@@ -39,3 +39,6 @@ Key characteristics and implications of BubblingException:
 * Used by Exceptions.bubble(): The primary way BubblingException instances are created is through the static utility method reactor.core.Exceptions.bubble(Throwable t). This method wraps the given Throwable in a BubblingException after potentially performing checks for already fatal exceptions.
 * Identifiable: Reactor provides utility methods like Exceptions.isBubbling(Throwable t) to check if an exception is a BubblingException and Exceptions.unwrap(Throwable t) to retrieve the original cause if it is.
   In essence, BubblingException is an internal mechanism within Project Reactor to manage the propagation of certain critical exceptions, ensuring they don't get lost in the asynchronous processing and are instead surfaced in a way that allows for appropriate handling further up the reactive stream or by global error handling configurations. While developers typically interact with error handling through operators like onErrorResume, onErrorReturn, or by subscribing with an error consumer, understanding BubblingException provides insight into Reactor's internal error management strategy, particularly when dealing with unexpected or severe errors.
+
+## subscribeOn
+

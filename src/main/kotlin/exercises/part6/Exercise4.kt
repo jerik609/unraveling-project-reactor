@@ -6,16 +6,39 @@ import reactor.core.scheduler.Schedulers
 
 class Exercise4 {
     companion object {
+
+        val task = { value: Int ->
+            val computed = 2 * value
+            println("(${Thread.currentThread().name}) - working on: $computed")
+            Thread.sleep(500)
+            computed
+        }
+
         fun run() {
 
-            val task = { value: Int ->
-                println("(${Thread.currentThread().name}) - working on: $value")
-                Thread.sleep(500)
-                2 * value
-            }
+            fluxWithOnlySubscribeOn()
 
-            // this example contains various settings, see commments to play with it
 
+
+        }
+
+        // specifies that we should run this on the parallel scheduler
+        fun fluxWithOnlySubscribeOn() {
+            Flux.range(1, 10)
+                .flatMap({ value -> Mono.fromCallable { task(value) }
+                         }, 3)
+                .subscribeOn(Schedulers.parallel()) // this will be overridden by flatMap publish on
+                .subscribe(
+                    { println("(${Thread.currentThread().name}) - consumed: $it") },
+                    { println("(${Thread.currentThread().name}) - error: ${it.message}") },
+                    { println("(${Thread.currentThread().name}) - DONE") })
+        }
+
+
+
+
+
+        fun flux1() {
             Flux.range(1, 10)
                 .publishOn(Schedulers.parallel()) // this will be ignored by flatMap ... or better, it will be respected, by we won't be running in parallel
                 // must be callable and must specify executors via own publishOn ... previous definition won't work
@@ -25,7 +48,10 @@ class Exercise4 {
                 .subscribe(
                     { println("(${Thread.currentThread().name}) - consumed: $it") },
                     { println("(${Thread.currentThread().name}) - error: ${it.message}") },
-                { println("(${Thread.currentThread().name}) - DONE") })
+                    { println("(${Thread.currentThread().name}) - DONE") })
         }
+
+
+
     }
 }

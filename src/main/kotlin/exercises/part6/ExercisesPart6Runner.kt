@@ -12,10 +12,10 @@ class ExercisesPart6Runner {
             println("=============================")
             //Exercise3.run()
             println("=============================")
-            //Exercise4.run()
+            Exercise4.run()
             //Exercise4InJava().run()
             println("=============================")
-            Exercise5.run()
+            //Exercise5.run()
 
             while (true) {
 
