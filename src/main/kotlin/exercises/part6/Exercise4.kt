@@ -15,18 +15,61 @@ class Exercise4 {
         }
 
         fun run() {
-
-            fluxWithOnlySubscribeOn()
-
-
+            //fluxFlatMapWithParallelismViaSubscribeOn()
+            //fluxFlatMapWithParallelismViaPublishOn()
+            fluxOther2()
 
         }
 
-        // specifies that we should run this on the parallel scheduler
-        fun fluxWithOnlySubscribeOn() {
+        // starts with main,
+        // then via subscribe on switches to bounded elastic (and forces flatMap to run in parallel),
+        // finally switches to parallel due to publish on
+        fun fluxFlatMapWithParallelismViaSubscribeOn() {
             Flux.range(1, 10)
+                .map {
+                    println("(${Thread.currentThread().name}) - mappity map on: $it")
+                    it
+                }
                 .flatMap({ value -> Mono.fromCallable { task(value) }
+                    .subscribeOn(Schedulers.boundedElastic())
                          }, 3)
+                .publishOn(Schedulers.parallel()) // this will be overridden by flatMap publish on
+                .subscribe(
+                    { println("(${Thread.currentThread().name}) - consumed: $it") },
+                    { println("(${Thread.currentThread().name}) - error: ${it.message}") },
+                    { println("(${Thread.currentThread().name}) - DONE") })
+        }
+
+        // starts with main,
+        // then via publish on switches to bounded elastic (and forces flatMap to run in parallel),
+        // finally switches to parallel due to publish on
+        fun fluxFlatMapWithParallelismViaPublishOn() {
+            Flux.range(1, 10)
+                .map {
+                    println("(${Thread.currentThread().name}) - mappity map on: $it")
+                    it
+                }
+                .flatMap({ value -> Mono.fromCallable { task(value) }
+                    .publishOn(Schedulers.boundedElastic())
+                }, 3)
+                .publishOn(Schedulers.parallel()) // this will be overridden by flatMap publish on
+                .subscribe(
+                    { println("(${Thread.currentThread().name}) - consumed: $it") },
+                    { println("(${Thread.currentThread().name}) - error: ${it.message}") },
+                    { println("(${Thread.currentThread().name}) - DONE") })
+        }
+
+        // subscribeOn makes the flux start with parallel
+        // then due to publish on switches to bounded elastic
+        fun fluxOther1() {
+            Flux.range(1, 10)
+                .map {
+                    println("(${Thread.currentThread().name}) - mappity map on: $it")
+                    it
+                }
+                .flatMap({ value -> Mono.fromCallable { task(value) }
+                    .publishOn(Schedulers.boundedElastic())
+                }, 3)
                 .subscribeOn(Schedulers.parallel()) // this will be overridden by flatMap publish on
                 .subscribe(
                     { println("(${Thread.currentThread().name}) - consumed: $it") },
@@ -34,7 +77,23 @@ class Exercise4 {
                     { println("(${Thread.currentThread().name}) - DONE") })
         }
 
-
+        // subscribeOn makes the flux start with parallel
+        // internal subscribeOn has no effect, even though it's "higher" up the chain
+        fun fluxOther2() {
+            Flux.range(1, 10)
+                .map {
+                    println("(${Thread.currentThread().name}) - mappity map on: $it")
+                    it
+                }
+                .flatMap({ value -> Mono.fromCallable { task(value) }
+                    .subscribeOn(Schedulers.boundedElastic())
+                }, 3)
+                .subscribeOn(Schedulers.parallel()) // this will be overridden by flatMap publish on
+                .subscribe(
+                    { println("(${Thread.currentThread().name}) - consumed: $it") },
+                    { println("(${Thread.currentThread().name}) - error: ${it.message}") },
+                    { println("(${Thread.currentThread().name}) - DONE") })
+        }
 
 
 

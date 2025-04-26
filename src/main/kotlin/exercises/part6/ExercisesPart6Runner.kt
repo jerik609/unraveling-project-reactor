@@ -14,7 +14,7 @@ class ExercisesPart6Runner {
             println("=============================")
             Exercise4.run()
             //Exercise4InJava().run()
-            println("=============================")
+            //println("=============================")
             //Exercise5.run()
 
             while (true) {
