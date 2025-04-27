@@ -34,7 +34,7 @@ class ParallelFluxTests {
             }
                 // just to catch the event of cancellation
                 .doOnCancel { logger.info("cancelled") }
-                // take 50 elements and then cancel
+                // take 50 elements and then cancel automatically
                 .take(50)
                 // limit parallelism to 4 (4 rail), we can have more or less rails than actual available threads
                 .parallel(4)
@@ -46,7 +46,7 @@ class ParallelFluxTests {
                     logger.info("(${Thread.currentThread().name} - ${Thread.currentThread().threadId()}) - processing: $product")
                     Mono.just(product)
                 }
-                // example of groups usage - exposes the rails
+                // example of groups usage - converts the parallel flux back to sequential and exposes the rails as fluxes
                 .groups()
                 // collecting the results of individual rails into a list:
                 // we're dealing with a flux of fluxes (inner = "railId and itemValue") - which we want to flatten into a flux of pairs of "railId and list"
