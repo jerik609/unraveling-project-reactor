@@ -121,6 +121,12 @@ class Exercise4 {
                 .flatMap({ value -> Mono.fromCallable { task(value) }
                     .publishOn(Schedulers.boundedElastic())
                          }, 3)
+
+//                .flatMap({ value -> Mono
+//                    .just(task(value))
+//                    .publishOn(Schedulers.boundedElastic())
+//                }, 3)
+
                 .subscribeOn(Schedulers.single())
                 .publishOn(Schedulers.single()) // switch to single thread explicitly
                 .subscribe(

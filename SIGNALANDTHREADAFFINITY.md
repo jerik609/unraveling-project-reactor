@@ -38,7 +38,11 @@ So, while a signal might travel across several operators on the same thread, its
 
 ### My note
 
-So if we do not mess around with publishOn and subscribeOn too much (lol), we would get the signal "travelling" on the same thread. The crucial part is:
+So generally:
 
 * the signal is processed by the operator on the same thread it arrives on, unless modified (by publishOn and subscribeOn)
 * the signal is forwarded on the same thread it was executed in the operator
+
+What I observed is that when using flatmap with publishOn on a Mono.fromCallable flux, the callable is executed on thread A and maintains this thread throughout the execution of the inner publisher, but when it's passed downstream, it's thread changes.
+
+This is a bit unexpected due to what's described in documentation.

@@ -4,7 +4,9 @@ import coroutines.CoroutineTest
 import org.example.context.ContextTests
 import org.example.exercises.part5.ExercisesPart5Runner
 import org.example.exercises.part6.ExercisesPart6Runner
+import org.example.exercises.part7.ExercisesPart7Runner
 import org.example.parallel.ParallelFluxTests
+import org.example.parallel.ParallelizationOnFlatMap
 import org.example.subscribers.MySubscriber
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
@@ -33,6 +35,7 @@ fun main() {
     //ExercisesPart4Runner.run()
     //ExercisesPart5Runner.run()
     //ExercisesPart6Runner.run()
+    //ExercisesPart7Runner.run()
 
     // === prototypes and tests ===
 
@@ -44,8 +47,9 @@ fun main() {
 //    c.run()
 
     //ParallelFluxTests.run()
+    ParallelizationOnFlatMap.run()
 
-    ContextTests.streamTestRun()
+    //ContextTests.streamTestRun()
 
 
 
