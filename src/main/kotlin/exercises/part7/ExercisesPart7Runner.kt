@@ -4,11 +4,11 @@ class ExercisesPart7Runner {
 
     companion object {
         fun run() {
-            Exercise1.run()
+            //Exercise1.run()
             println("=============================")
             Exercise2.run()
             println("=============================")
-            Exercise3.run()
+            //Exercise3.run()
             println("=============================")
 
             while (true) {

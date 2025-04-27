@@ -6,7 +6,6 @@ import reactor.core.scheduler.Schedulers
 import reactor.util.context.Context
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.util.concurrent.CompletableFuture
 
 class Exercise1 {
 
@@ -24,14 +23,7 @@ class Exercise1 {
                     input.flatMapSequential { value ->
                         Mono
                             .fromCallable { divide(value, divider) }
-                            //.fromFuture { CompletableFuture.supplyAsync { divide(value, divider) } }
-                            //.just(divide(value, divider))
                             .publishOn(Schedulers.boundedElastic())
-
-//                        Mono.fromCallable {
-//                            println("(${Thread.currentThread().name}) - working on: $value")
-//                            BigDecimal.valueOf(value.toLong()).divide(divider, 3, RoundingMode.HALF_UP)
-//                        }.publishOn(Schedulers.parallel())
                     }
                 }
                 .contextWrite(Context.of("divider", BigDecimal.valueOf(3.0)))
