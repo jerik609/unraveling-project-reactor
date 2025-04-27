@@ -1,6 +1,7 @@
 package org.example
 
 import coroutines.CoroutineTest
+import org.example.context.ContextTests
 import org.example.exercises.part5.ExercisesPart5Runner
 import org.example.exercises.part6.ExercisesPart6Runner
 import org.example.parallel.ParallelFluxTests
@@ -42,7 +43,9 @@ fun main() {
 //    val c = CoroutineTest()
 //    c.run()
 
-    ParallelFluxTests.run()
+    //ParallelFluxTests.run()
+
+    ContextTests.streamTestRun()
 
 
 
