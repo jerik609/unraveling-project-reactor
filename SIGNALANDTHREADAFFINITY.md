@@ -43,6 +43,13 @@ So generally:
 * the signal is processed by the operator on the same thread it arrives on, unless modified (by publishOn and subscribeOn)
 * the signal is forwarded on the same thread it was executed in the operator
 
-What I observed is that when using flatmap with publishOn on a Mono.fromCallable flux, the callable is executed on thread A and maintains this thread throughout the execution of the inner publisher, but when it's passed downstream, it's thread changes.
+What I observed is that when using flatmap with inner publishers defined as "Mono.fromCallable & publishOn" or "Mono.fromFuture" (i.e. "parallel flatMap"):
+* the callable is executed on thread A from the publishOn's scheduler (or fork-join pool for the future version)
+* and maintains this thread throughout the execution of the inner publisher
+* but when it's passed downstream, sometimes the thread changes (though Scheduler defined within flatMap  is still respected)
 
-This is a bit unexpected due to what's described in documentation.
+So the thread affinity might change when using flatMap with for some unknown reason.
+
+This is a bit unexpected as generally, the thread should not change, as this is expensive, but flatMap does so.
+
+THREAD AFFINITY IS WEIRD AND WE SHOULD NOT ASSUME IT ... maybe in the future I will unravel this.

@@ -7,13 +7,6 @@ import reactor.core.scheduler.Schedulers
 class Exercise4 {
     companion object {
 
-        val task = { value: Int ->
-            val computed = 2 * value
-            println("(${Thread.currentThread().name}) - working on: $computed")
-            Thread.sleep(500)
-            computed
-        }
-
         fun run() {
             //fluxFlatMapWithParallelismViaSubscribeOn()
             //fluxFlatMapWithParallelismViaPublishOn()
@@ -133,6 +126,13 @@ class Exercise4 {
                     { println("(${Thread.currentThread().name}) - consumed: $it") },
                     { println("(${Thread.currentThread().name}) - error: ${it.message}") },
                     { println("(${Thread.currentThread().name}) - DONE") })
+        }
+
+        val task = { value: Int ->
+            val computed = value //2 * value
+            println("(${Thread.currentThread().name}) - working on: $computed")
+            Thread.sleep(500)
+            computed
         }
     }
 }

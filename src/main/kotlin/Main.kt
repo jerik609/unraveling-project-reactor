@@ -35,7 +35,7 @@ fun main() {
     //ExercisesPart4Runner.run()
     //ExercisesPart5Runner.run()
     //ExercisesPart6Runner.run()
-    //ExercisesPart7Runner.run()
+    ExercisesPart7Runner.run()
 
     // === prototypes and tests ===
 
@@ -47,7 +47,7 @@ fun main() {
 //    c.run()
 
     //ParallelFluxTests.run()
-    ParallelizationOnFlatMap.run()
+    //ParallelizationOnFlatMap.run()
 
     //ContextTests.streamTestRun()
 
