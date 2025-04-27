@@ -1,6 +1,10 @@
 package org.example.context
 
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
+import reactor.util.context.Context
+import reactor.util.context.ContextView
 import java.util.stream.Stream
 
 class ContextTests {
@@ -45,6 +49,68 @@ class ContextTests {
             }
 
         }
+
+        fun funnyContext() {
+
+            val getConcatLevels = { context: ContextView ->
+                val l1 = context.getOrDefault("level1", "default 1 ")!!
+                val l2 = context.getOrDefault("level2", "default 1 ")!!
+                val l3 = context.getOrDefault("level3", "default 1 ")!!
+                val l4 = context.getOrDefault("level4", "default 1 ")!!
+                val l5 = context.getOrDefault("level5", "default 1 ")!!
+                l1 + l2 + l3 + l4 + l5
+            }
+
+            val flux = Flux.just("")
+                .contextWrite(Context.of("level5", "l5 "))
+                .transformDeferredContextual { flux, context ->
+                    val suffix = getConcatLevels(context)
+                    flux.flatMapSequential { value ->
+                        Mono<String>.fromCallable { "$value + $suffix <<< TOP \n" }
+                            .publishOn(Schedulers.parallel())
+                    }
+                }
+                .contextWrite(Context.of("level4", "l4 "))
+                .transformDeferredContextual { flux, context ->
+                    val suffix = getConcatLevels(context)
+                    flux.flatMapSequential { value ->
+                        Mono<String>.fromCallable { "$value + $suffix <<< TOP-1 \n" }
+                            .publishOn(Schedulers.parallel())
+                    }
+                }
+                .contextWrite(Context.of("level3", "l3 "))
+                .transformDeferredContextual { flux, context ->
+                    val suffix = getConcatLevels(context)
+                    flux.flatMapSequential { value ->
+                        Mono<String>.fromCallable { "$value + $suffix TOP-2 \n" }
+                            .publishOn(Schedulers.parallel())
+                    }
+                }
+                .contextWrite(Context.of("level2", "l2 "))
+                .transformDeferredContextual { flux, context ->
+                    val suffix = getConcatLevels(context)
+                    flux.flatMapSequential { value ->
+                        Mono<String>.fromCallable { "$value + $suffix TOP-3 \n" }
+                            .publishOn(Schedulers.parallel())
+                    }
+                }
+                .contextWrite(Context.of("level1", "l1 "))
+                .transformDeferredContextual { flux, context ->
+                    val suffix = getConcatLevels(context)
+                    flux.flatMapSequential { value ->
+                        Mono<String>.fromCallable { "$value + $suffix TOP-4 \n" }
+                            .publishOn(Schedulers.parallel())
+                    }
+                }
+
+            flux
+                .subscribe { println(it) }
+
+            while (true) {
+
+            }
+        }
+
     }
 
 

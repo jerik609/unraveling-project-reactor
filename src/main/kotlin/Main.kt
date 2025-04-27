@@ -35,7 +35,7 @@ fun main() {
     //ExercisesPart4Runner.run()
     //ExercisesPart5Runner.run()
     //ExercisesPart6Runner.run()
-    ExercisesPart7Runner.run()
+    //ExercisesPart7Runner.run()
 
     // === prototypes and tests ===
 
@@ -50,8 +50,7 @@ fun main() {
     //ParallelizationOnFlatMap.run()
 
     //ContextTests.streamTestRun()
-
-
+    ContextTests.funnyContext()
 
 }
 
