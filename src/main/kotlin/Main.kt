@@ -3,6 +3,7 @@ package org.example
 import coroutines.CoroutineTest
 import org.example.exercises.part5.ExercisesPart5Runner
 import org.example.exercises.part6.ExercisesPart6Runner
+import org.example.parallel.ParallelFluxTests
 import org.example.subscribers.MySubscriber
 import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
@@ -30,7 +31,7 @@ fun main() {
     //ExercisesPart3Runner.run()
     //ExercisesPart4Runner.run()
     //ExercisesPart5Runner.run()
-    ExercisesPart6Runner.run()
+    //ExercisesPart6Runner.run()
 
     // === prototypes and tests ===
 
@@ -40,6 +41,10 @@ fun main() {
 
 //    val c = CoroutineTest()
 //    c.run()
+
+    ParallelFluxTests.run()
+
+
 
 }
 
