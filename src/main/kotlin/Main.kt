@@ -5,6 +5,7 @@ import org.example.context.ContextTests
 import org.example.exercises.part5.ExercisesPart5Runner
 import org.example.exercises.part6.ExercisesPart6Runner
 import org.example.exercises.part7.ExercisesPart7Runner
+import org.example.exercises.part8.ExercisesPart8Runner
 import org.example.parallel.ParallelFluxTests
 import org.example.parallel.ParallelizationOnFlatMap
 import org.example.subscribers.MySubscriber
@@ -36,6 +37,7 @@ fun main() {
     //ExercisesPart5Runner.run()
     //ExercisesPart6Runner.run()
     //ExercisesPart7Runner.run()
+    ExercisesPart8Runner.run()
 
     // === prototypes and tests ===
 
@@ -50,7 +52,7 @@ fun main() {
     //ParallelizationOnFlatMap.run()
 
     //ContextTests.streamTestRun()
-    ContextTests.funnyContext()
+    //ContextTests.funnyContext()
 
 }
 
