@@ -1,8 +1,8 @@
 # Flux.create((FluxSink<String>) -> Unit)
 
 This is our typical backpressure sink - we can regulate the consumption from external source by the requests made by subscribers
-via subscription.request ... when this request is made, it will eventually be propagated to sink.onRequest(LongConsumer).
-Here we can react by e.g. reading more items from Kafka. 
+via subscription.request(Long) ... when this request is made, it will be eventually propagated to sink.onRequest(LongConsumer).
+Here we can react by e.g. reading more items from Kafka.
 
         Here's how it works in the context of Flux.create:
         1.Subscriber Requests: The downstream Subscriber signals its readiness for more data by calling subscription.request(n)
@@ -16,10 +16,10 @@ Here we can react by e.g. reading more items from Kafka.
 
 # Sinks.many().multicast().directBestEffort<String>().asFlux()
 
-This is a hot flux - it simply produces data continuously (though we can stop when we realize there are no subscribers left 
-via sink.currentSubscriberCount()). Otherwise, this sink does not have any way to react on a request. It will simply try to 
+This is a true hot flux - it simply produces data continuously. We can stop when we realize there are no subscribers left 
+via sink.currentSubscriberCount(). Otherwise, this sink does not have any way to react on a request. It will simply try to 
 produce using tryEmitNext and may buffer, drop or fail when the subscribers are not ready (based on the result of the tryEmitNext).
-This behavior is determined by directBestEffort and similar methods.
+This behavior is determined by directBestEffort and similar configurations set on creation of the sink.
 
         It's quite different from Flux.create. Here's the breakdown:
         1.Producer Pushes Independently: The code calling sink.tryEmitNext(value) (your loop in testHotHotFlux) pushes
