@@ -37,11 +37,11 @@ fun main() {
     //ExercisesPart5Runner.run()
     //ExercisesPart6Runner.run()
     //ExercisesPart7Runner.run()
-    ExercisesPart8Runner.run()
+    //ExercisesPart8Runner.run()
 
     // === prototypes and tests ===
 
-    //hotFluxTest()
+    hotFluxTest()
 
     //multiSubscribe()
 
@@ -62,14 +62,14 @@ fun hotFluxTest() {
 
     val fluxRepo = FluxRepo()
 
-    // a flux which is triggered by first subscription and the multicasts, late subscribers may miss some records
+    // a flux which is triggered by first subscription and then multicasts, late subscribers may miss some records
     //testColdHotFlux(fluxRepo)
 
-    // a flux which is triggered by first subscription and the multicasts, late subscribers may miss some records
-    //testColdHotFluxX(fluxRepo)
+    // a flux which is triggered by first subscription and then multicasts, late subscribers may miss some records
+    testColdHotFluxX(fluxRepo)
 
     // a flux created using sinks, otherwise same as testColdHotFluxX
-    testHotHotFluxX(fluxRepo)
+    //testHotHotFluxX(fluxRepo)
 
     // a cold hot flux, from which we consume only finite number of items - what will happen to it?
     //testColdHotFlux2(fluxRepo)

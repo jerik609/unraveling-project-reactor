@@ -27,7 +27,7 @@ class FluxRepo {
             sink
                 .onCancel { logger.info { "SINK ${sink.hashCode()}: was cancelled" } }
                 .onDispose { logger.info { "SINK ${sink.hashCode()}: was disposed" } }
-                .onRequest { logger.info { "SINK ${sink.hashCode()}: was requested" } }
+                .onRequest { n -> logger.info { "SINK ${sink.hashCode()}: was requested: $n" } }
 
             executor.submit {
                 while (true) {
